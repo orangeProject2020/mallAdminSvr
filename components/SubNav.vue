@@ -1,6 +1,9 @@
 <template>
   <div>
     <el-menu :default-active="$store.state.subNavIndex" mode="horizontal">
+      <el-menu-item index="0">
+        <router-link to="/">数据概览</router-link>
+      </el-menu-item>
       <el-menu-item index="1">
         <router-link to="/order">订单管理</router-link>
       </el-menu-item>

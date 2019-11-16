@@ -52,15 +52,22 @@
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
-          <el-button type="warning" plain size="small" v-if="scope.row.status == 0">取消</el-button>
+          <el-button
+            type="warning"
+            plain
+            size="small"
+            v-if="scope.row.status == 0"
+            @click="orderCancel(scope.row)"
+          >取消订单</el-button>
           <el-button
             type="danger"
             plain
             size="small"
             v-if="scope.row.status == 0"
             class="text-red-600"
-          >付款</el-button>
-          <el-button type="text" size="small" v-if="scope.row.status == 1">发货</el-button>
+            @click="orderComplete(scope.row)"
+          >确认付款</el-button>
+          <el-button type="primary" plain size="small" v-if="scope.row.status == 1">发货</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -110,6 +117,93 @@ export default {
       console.log("/pageChange:", currentPage);
       this.page = currentPage;
       this.getList();
+    },
+    orderCancel(order) {
+      let cancelData = {};
+      cancelData.id = order.id;
+      cancelData.user_id = order.user_id;
+      cancelData.cancel_reason = "后台取消";
+
+      this.$confirm("是否将该订单设置为取消状态, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(async () => {
+          let cancelRet = await apis.cancelOrder(cancelData);
+          console.log("/orderCancel cancelRet:", cancelRet);
+          if (cancelRet.code == 0) {
+            order.status = -1;
+            this.$message({
+              type: "success",
+              message: "取消成功!"
+            });
+          } else {
+            this.$message({
+              type: "info",
+              message: cancelData.message
+            });
+          }
+        })
+        .catch(() => {});
+    },
+    orderComplete(order) {
+      this.$confirm("是否确认该订单已支付, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(async () => {
+          let orderCompleteRet = await this.orderCompleteSubmit(order);
+          console.log("/orderComplete orderCompleteRet:", orderCompleteRet);
+          if (orderCompleteRet.code == 0) {
+            order.status = 1;
+            this.$message({
+              type: "success",
+              message: "确认成功!"
+            });
+          } else {
+            this.$message({
+              type: "info",
+              message: orderCompleteRet.message
+            });
+          }
+        })
+        .catch(() => {});
+    },
+    async orderCompleteSubmit(order) {
+      let paymentCreateData = {
+        user_id: order.user_id,
+        order_ids: [order.id],
+        total: order.total,
+        amount: order.total,
+        score: 0,
+        pay_type: 0,
+        pay_method: 0,
+        balance: 0,
+        coupon: 0,
+        user_coupon_id: 0,
+        remark: "后台生成"
+      };
+
+      let paymentCreateRet = await apis.paymentCreate(paymentCreateData);
+      console.log("/orderCompleteSubmit paymentCreateRet:", paymentCreateRet);
+      if (paymentCreateRet.code) {
+        return paymentCreateRet;
+      }
+
+      let outTradeNo = paymentCreateRet.data.out_trade_no;
+      let paymentCompleteData = {
+        user_id: order.user_id,
+        out_trade_no: outTradeNo,
+        remark: "后台确认"
+      };
+      let paymentCompleteRet = await apis.paymentComplete(paymentCompleteData);
+      console.log(
+        "/orderCompleteSubmit paymentCompleteRet:",
+        paymentCompleteRet
+      );
+      return paymentCreateRet;
     }
   },
   created() {
