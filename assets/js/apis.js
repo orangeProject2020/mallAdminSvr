@@ -21,6 +21,18 @@ export default {
     let ret = await axios.post('/api/mall/payment/complete', data)
     return ret
   },
+  async getPaymentList(data) {
+    let ret = await axios.post('/api/mall/payment/list', data)
+    return ret
+  },
+  async getGoodsList(data) {
+    let ret = await axios.post('/api/mall/goods/list', data)
+    return ret
+  },
+  async getGoodsCategoryList(data) {
+    let ret = await axios.post('/api/mall/goods/categorys', data)
+    return ret
+  },
   async statisticsTodayData(data = {}) {
     let ret = await axios.post('/api/mall/statistics/today', data)
     return ret
