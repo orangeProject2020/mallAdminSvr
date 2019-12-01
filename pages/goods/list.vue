@@ -3,7 +3,7 @@
     <el-table :data="listData.list">
       <el-table-column prop="id">
         <template slot="header">
-          <el-button class="primary" size="mini" @click="goodsAddBtnClick">添加</el-button>
+          <el-button type="primary" size="mini" @click="goodsAddBtnClick">添加</el-button>
         </template>
       </el-table-column>
       <el-table-column label="sku" prop="sku_id"></el-table-column>
@@ -78,7 +78,12 @@
           />
         </template>
         <template slot-scope="scope">
-          <el-button size="mini" @click="goodsUpdateBtnClick(scope.row)">查看 / 编辑</el-button>
+          <el-button
+            size="mini"
+            type="primary"
+            plain
+            @click="goodsUpdateBtnClick(scope.row)"
+          >查看 / 编辑</el-button>
           <el-button size="mini" type="danger" @click="goodsDeleteBtnClick(scope.row)">删除</el-button>
         </template>
       </el-table-column>

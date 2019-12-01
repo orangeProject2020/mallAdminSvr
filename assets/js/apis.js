@@ -40,6 +40,11 @@ export default {
     let ret = await axios.post('/api/mall/goods/update', data)
     return ret
   },
+  async categoryDataUpdate(data) {
+    data.business_id = process.env.businessId
+    let ret = await axios.post('/api/mall/goods/categoryUpdate', data)
+    return ret
+  },
   async getGoodsCategoryList(data) {
     data.business_id = process.env.businessId
     let ret = await axios.post('/api/mall/goods/categorys', data)
