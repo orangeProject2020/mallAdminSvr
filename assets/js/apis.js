@@ -26,10 +26,22 @@ export default {
     return ret
   },
   async getGoodsList(data) {
+    data.business_id = process.env.businessId
     let ret = await axios.post('/api/mall/goods/list', data)
     return ret
   },
+  async goodsDataCreate(data) {
+    data.business_id = process.env.businessId
+    let ret = await axios.post('/api/mall/goods/create', data)
+    return ret
+  },
+  async goodsDataUpdate(data) {
+    data.business_id = process.env.businessId
+    let ret = await axios.post('/api/mall/goods/update', data)
+    return ret
+  },
   async getGoodsCategoryList(data) {
+    data.business_id = process.env.businessId
     let ret = await axios.post('/api/mall/goods/categorys', data)
     return ret
   },
