@@ -67,7 +67,7 @@
           <span v-if="scope.row.status == 1" class="text-green-500">已上架</span>
         </template>
       </el-table-column>
-      <el-table-column align="right" width="240">
+      <el-table-column align="right" width="200" fixed="right">
         <template slot="header" slot-scope="scope">
           <el-input
             v-model="listData.search"
@@ -505,6 +505,8 @@ export default {
   created() {
     this.getListData();
     this.getCategorys();
+
+    this.$store.commit("subNavIndexSet", "3");
   }
 };
 </script>

@@ -135,6 +135,7 @@ export default {
   },
   created() {
     this.getStatisticsTodayData();
+    this.$store.commit("subNavIndexSet", "0");
   }
 };
 </script>

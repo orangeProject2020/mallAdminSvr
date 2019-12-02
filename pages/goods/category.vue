@@ -208,6 +208,8 @@ export default {
   },
   created() {
     this.getListData();
+
+    this.$store.commit("subNavIndexSet", "4");
   }
 };
 </script>

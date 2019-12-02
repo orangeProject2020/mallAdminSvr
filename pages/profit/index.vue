@@ -2,14 +2,13 @@
   <div>
     <el-row class="mt-4">
       <el-col :span="6">
-        <el-input placeholder="请输入单号或者用户手机号码" v-model="listData.search" @change="getSearchList">
+        <el-input placeholder="请输入用户手机号码" v-model="listData.search" @change="getSearchList">
           <i slot="prefix" class="el-input__icon el-icon-search"></i>
         </el-input>
       </el-col>
     </el-row>
     <el-table :data="listData.list">
       <el-table-column label="ID" prop="id" width="50"></el-table-column>
-      <el-table-column label="账单号" prop="out_trade_no"></el-table-column>
       <el-table-column label="用户信息">
         <template slot-scope="scope">
           <span
@@ -19,27 +18,30 @@
           >{{user.username}} / {{user.mobile}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="支付时间">
-        <template slot-scope="scope">{{dateFormat(scope.row.update_time)}}</template>
+      <el-table-column label="创建时间">
+        <template slot-scope="scope">{{dateFormat(scope.row.create_time)}}</template>
       </el-table-column>
-      <el-table-column label="账单金额">
-        <template slot-scope="scope">￥{{(scope.row.total/100).toFixed(2)}}</template>
+      <el-table-column label="分红日期">
+        <template slot-scope="scope">{{scope.row.date}}</template>
       </el-table-column>
-      <el-table-column label="支付金额">
+      <el-table-column label="金额">
+        <template slot-scope="scope">￥{{(scope.row.amount/100).toFixed(2)}}</template>
+      </el-table-column>
+      <el-table-column label="类型">
         <template slot-scope="scope">
-          <span class="text-red-500">￥{{(scope.row.amount/100).toFixed(2)}}</span>
+          <span v-if="scope.row.type == 1">套餐分红</span>
+          <span v-if="scope.row.type == 2">平台分红</span>
         </template>
       </el-table-column>
-      <el-table-column label="支付方式">
+      <el-table-column label="状态">
         <template slot-scope="scope">
-          <span v-if="scope.row.pay_method == 0">线下支付</span>
-          <span v-if="scope.row.pay_method == 1">微信支付</span>
-          <span v-if="scope.row.pay_method == 2">支付宝</span>
+          <span v-if="scope.row.status == 1">已结算</span>
+          <span v-if="scope.row.status == 0" class="text-red-500">未结算</span>
         </template>
       </el-table-column>
-      <el-table-column label="订单IDS">
+      <el-table-column label="关联订单ID">
         <template slot-scope="scope">
-          <span class>{{(scope.row.order_ids)}}</span>
+          <span class>{{(scope.row.order_id)}}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -84,21 +86,21 @@ export default {
       let data = {};
       data.page = this.listData.page;
       data.limit = this.listData.limit;
-      data.search = this.listData.search;
+      // data.search = this.listData.search;
 
       if (this.listData.search) {
         let search = this.listData.search
         if (search.length > 20) {
-          data.out_trade_no = search;
+          // data.out_trade_no = search;
         } else if (search.length == 11) {
           data.user_id = this.searchUserId;
         } else if (search.length < 11) {
-          data.payment_id = search;
+          data.id = search;
         }
       }
 
       try {
-        let dataRet = await apis.getPaymentList(data);
+        let dataRet = await apis.getProfitList(data);
         console.log("/getListData dataRet:", dataRet);
         if (dataRet.code === 0) {
           this.listData.count = dataRet.data.count;
@@ -156,7 +158,7 @@ export default {
       this.getUserList();
     });
 
-    this.$store.commit("subNavIndexSet", "2");
+    this.$store.commit("subNavIndexSet", "5");
   }
 };
 </script>

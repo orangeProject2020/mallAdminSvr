@@ -66,6 +66,10 @@ export default {
     let ret = await axios.post('/api/mall/goods/categorys', data)
     return ret
   },
+  async getProfitList(data) {
+    let ret = await axios.post('/api/mall/profit/list', data)
+    return ret
+  },
   async statisticsTodayData(data = {}) {
     let ret = await axios.post('/api/mall/statistics/today', data)
     return ret

@@ -17,7 +17,7 @@
         <router-link to="/goods/category">商品分类</router-link>
       </el-menu-item>
       <el-menu-item index="5">
-        <router-link to="/goods/category">分红记录</router-link>
+        <router-link to="/profit">分红记录</router-link>
       </el-menu-item>
       <el-menu-item index="6">
         <router-link to="/goods/category">提现记录</router-link>

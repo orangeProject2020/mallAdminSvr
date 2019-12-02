@@ -1,12 +1,12 @@
 <template>
   <div class="mt-4">
     <el-row>
-      <el-col :span="12">
+      <el-col :span="6">
         <el-input placeholder="请输入订单号或者用户手机号码" v-model="search" @change="getSearchList">
           <i slot="prefix" class="el-input__icon el-icon-search"></i>
         </el-input>
       </el-col>
-      <el-col :span="12" class="text-right">
+      <el-col :span="18" class="text-right">
         <el-select v-model="statusVal" placeholder="请选择" @change="statusChange">
           <el-option
             v-for="item in statusOptions"
@@ -18,6 +18,7 @@
       </el-col>
     </el-row>
     <el-table :data="list" style="width: 100%">
+      <el-table-column label="ID" prop="id" width="50"></el-table-column>
       <el-table-column label="订单号" prop="order_no"></el-table-column>
       <el-table-column label="用户信息">
         <template slot-scope="scope">
@@ -393,7 +394,7 @@ export default {
     },
     async getUserList() {
       let userIds = [];
-      this.user_id = [];
+      this.userList = [];
       this.list.forEach(item => {
         userIds.push(item.user_id);
       });
@@ -409,6 +410,8 @@ export default {
     this.getList().then(() => {
       this.getUserList();
     });
+
+    this.$store.commit("subNavIndexSet", "1");
   }
 };
 </script>
