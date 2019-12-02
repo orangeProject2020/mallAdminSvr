@@ -1,6 +1,18 @@
 import axios from './axios'
 
 export default {
+  async getUserIdByMobile(data) {
+    let ret = await axios.post('/api/user/data/getUserIdByMobile', {
+      mobile: data.mobile
+    })
+    return ret
+  },
+  async getListByUserIds(data) {
+    let ret = await axios.post('/api/user/data/getListByUserIds', {
+      user_ids: data.user_ids
+    })
+    return ret
+  },
   async getOrderList(data) {
     let ret = await axios.post('/api/mall/order/list', data)
     return ret
@@ -11,6 +23,10 @@ export default {
    */
   async cancelOrder(data) {
     let ret = await axios.post('/api/mall/order/cancel', data)
+    return ret
+  },
+  async updateOrder(data) {
+    let ret = await axios.post('/api/mall/order/update', data)
     return ret
   },
   async paymentCreate(data) {
