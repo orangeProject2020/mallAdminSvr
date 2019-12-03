@@ -34,13 +34,8 @@ async function start() {
   // app.set('trust proxy', 1)
   app.use(
     session({
-      name: 'adminClient',
-      resave: true,
+      resave: false,
       saveUninitialized: false,
-      cookie: {
-        secure: false,
-        maxAge: 1000 * 60 * 60 * 6
-      },
       secret: "962055fd-2ae5-4880-9d40-eecd5bd3fe03" // session加密
     })
   );

@@ -82,6 +82,10 @@ export default {
     let ret = await axios.post('/api/mall/withdraw/list', data)
     return ret
   },
+  async withdrawAudit(data) {
+    let ret = await axios.post('/api/mall/withdraw/audit', data)
+    return ret
+  },
   async statisticsTodayData(data = {}) {
     let ret = await axios.post('/api/mall/statistics/today', data)
     return ret

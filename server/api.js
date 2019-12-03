@@ -17,6 +17,7 @@ router.use(async (req, res) => {
   console.log('/api url', url)
 
   let data = req.body || {}
+  data.UID = req.session.UID || ''
 
   let Request = new request({
     channel_id: config.channel_id,
@@ -27,6 +28,8 @@ router.use(async (req, res) => {
   if (ret.data && ret.data.token) {
     console.log('/api token: ', ret.data.token)
     req.session.token = ret.data.token
+    req.session.UID = ret.data.uuid
+
     console.log('/api token set success ......, ',
       req.session.token)
   }
