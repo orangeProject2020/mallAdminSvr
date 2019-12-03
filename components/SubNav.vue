@@ -20,10 +20,13 @@
         <router-link to="/profit">分红记录</router-link>
       </el-menu-item>
       <el-menu-item index="6">
-        <router-link to="/goods/category">提现记录</router-link>
+        <router-link to="/withdraw">提现记录</router-link>
       </el-menu-item>
       <el-menu-item index="7">
-        <router-link to="/goods/category">交易流水</router-link>
+        <router-link to="/assets">用户资产</router-link>
+      </el-menu-item>
+      <el-menu-item index="8">
+        <router-link to="/assets/logs">交易流水</router-link>
       </el-menu-item>
     </el-menu>
   </div>
