@@ -6,6 +6,34 @@
           <i slot="prefix" class="el-input__icon el-icon-search"></i>
         </el-input>
       </el-col>
+      <el-col :span="18" class="text-right">
+        <el-date-picker
+          v-model="dateVal"
+          type="date"
+          placeholder="选择日期"
+          @change="dateChange"
+          value-format="yyyy-MM-dd"
+          class="mr-4"
+        ></el-date-picker>
+        <el-button
+          @click="profitPlatformCheckBtnClick"
+          :disabled="profitPlatformCheckBtnDisabled"
+          plain
+          type="primary"
+        >平台每日分红结算</el-button>
+        <el-button
+          @click="profitUserCheckBtnClick"
+          :disabled="profitUserCheckBtnDisabled"
+          plain
+          type="primary"
+        >套餐分红生成</el-button>
+        <el-button
+          @click="profitUserCloseBtnClick"
+          :disabled="profitUserCloseBtnDisabled"
+          plain
+          type="primary"
+        >套餐分红结算</el-button>
+      </el-col>
     </el-row>
     <el-table :data="listData.list">
       <el-table-column label="ID" prop="id" width="50"></el-table-column>
@@ -77,7 +105,11 @@ export default {
         search: ""
       },
       userList: [],
-      searchUserId: ""
+      searchUserId: "",
+      dateVal: "",
+      profitPlatformCheckBtnDisabled: false,
+      profitUserCheckBtnDisabled: false,
+      profitUserCloseBtnDisabled: false
     };
   },
   methods: {
@@ -86,10 +118,11 @@ export default {
       let data = {};
       data.page = this.listData.page;
       data.limit = this.listData.limit;
+      data.date = this.dateVal;
       // data.search = this.listData.search;
 
       if (this.listData.search) {
-        let search = this.listData.search
+        let search = this.listData.search;
         if (search.length > 20) {
           // data.out_trade_no = search;
         } else if (search.length == 11) {
@@ -114,13 +147,24 @@ export default {
         this.$message.error(err.message || "获取用户数据失败");
       }
     },
+    getRefreshData() {
+      this.listData.list = [];
+      this.listData.page = 1;
+      this.listData.count = 0;
+      this.getListData().then(() => {
+        this.getUserList();
+      });
+    },
     pageChange(page) {
       this.listData.list = [];
       this.listData.page = page;
       this.getListData();
     },
+    dateChange() {
+      console.log(this.dateVal);
+      this.getRefreshData();
+    },
     async getSearchList() {
-      
       let search = this.listData.search;
       if (this.listData.search.length == 11) {
         // 通过phone找用户user_id
@@ -151,6 +195,42 @@ export default {
       if (ret.code === 0) {
         this.userList = ret.data;
       }
+    },
+    async profitPlatformCheckBtnClick() {
+      this.pr0fitPlatformCheckBtnDisabled = true;
+      try {
+        let ret = await apis.profitPlatformCheck({ date: this.dateVal });
+        if (ret.code == 0) {
+          this.getRefreshData();
+        } else {
+          throw new Error(ret.message);
+        }
+      } catch (err) {}
+      this.profitPlatformCheckBtnDisabled = false;
+    },
+    async profitUserCheckBtnClick() {
+      this.profitUserCheckBtnDisabled = true;
+      try {
+        let ret = await apis.profitUserCheck();
+        if (ret.code == 0) {
+          this.getRefreshData();
+        } else {
+          throw new Error(ret.message);
+        }
+      } catch (err) {}
+      this.profitUserCheckBtnDisabled = false;
+    },
+    async profitUserCloseBtnClick() {
+      this.profitUserCloseBtnDisabled = true;
+      try {
+        let ret = await apis.profitUserClose();
+        if (ret.code == 0) {
+          this.getRefreshData();
+        } else {
+          throw new Error(ret.message);
+        }
+      } catch (err) {}
+      this.profitUserCloseBtnDisabled = false;
     }
   },
   created() {

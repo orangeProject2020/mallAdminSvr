@@ -89,5 +89,18 @@ export default {
   async statisticsTodayData(data = {}) {
     let ret = await axios.post('/api/mall/statistics/today', data)
     return ret
+  },
+
+  async profitPlatformCheck(data = {}) {
+    let ret = await axios.post('/api/mall/schedule/profitPlatformCheck', data)
+    return ret
+  },
+  async profitUserCheck(data = {}) {
+    let ret = await axios.post('/api/mall/schedule/dayJobProfitUserCheck', data)
+    return ret
+  },
+  async profitUserClose(data = {}) {
+    let ret = await axios.post('/api/mall/schedule/dayJobProfitUserClose', data)
+    return ret
   }
 }
