@@ -200,36 +200,45 @@ export default {
       this.pr0fitPlatformCheckBtnDisabled = true;
       try {
         let ret = await apis.profitPlatformCheck({ date: this.dateVal });
+        console.log("/profitPlatformCheckBtnClick ret:", ret);
         if (ret.code == 0) {
           this.getRefreshData();
         } else {
           throw new Error(ret.message);
         }
-      } catch (err) {}
+      } catch (err) {
+        this.$message.error(err.message || err);
+      }
       this.profitPlatformCheckBtnDisabled = false;
     },
     async profitUserCheckBtnClick() {
       this.profitUserCheckBtnDisabled = true;
       try {
         let ret = await apis.profitUserCheck();
+        console.log("/profitUserCheckBtnClick ret:", ret);
         if (ret.code == 0) {
           this.getRefreshData();
         } else {
           throw new Error(ret.message);
         }
-      } catch (err) {}
+      } catch (err) {
+        this.$message.error(err.message || err);
+      }
       this.profitUserCheckBtnDisabled = false;
     },
     async profitUserCloseBtnClick() {
       this.profitUserCloseBtnDisabled = true;
       try {
         let ret = await apis.profitUserClose();
+        console.log("/profitUserCloseBtnClick ret:", ret);
         if (ret.code == 0) {
           this.getRefreshData();
         } else {
           throw new Error(ret.message);
         }
-      } catch (err) {}
+      } catch (err) {
+        this.$message.error(err.message || err);
+      }
       this.profitUserCloseBtnDisabled = false;
     }
   },

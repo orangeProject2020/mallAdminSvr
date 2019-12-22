@@ -436,7 +436,7 @@ export default {
       let data = Object.assign({}, this.formGoodsData);
       data.price = parseInt(data.price * 100);
       data.price_cost = parseInt(data.price_cost * 100);
-      data.price_market = parseInt(data.price_cost * 100);
+      data.price_market = parseInt(data.price_market * 100);
       data.package_profit = parseInt(data.package_profit * 100);
       data.thumb = this.fileListThumb.length ? this.fileListThumb[0].url : "";
       data.cover = this.fileListCover.length ? this.fileListCover[0].url : "";

@@ -2,11 +2,7 @@
   <div>
     <el-row class="mt-4">
       <el-col :span="6">
-        <el-input
-          placeholder="请输入用户手机号码"
-          v-model="listData.search"
-          @change="getSearchList"
-        >
+        <el-input placeholder="请输入用户手机号码" v-model="listData.search" @change="getSearchList">
           <i slot="prefix" class="el-input__icon el-icon-search"></i>
         </el-input>
       </el-col>
@@ -19,25 +15,20 @@
             v-for="user in userList"
             v-if="user.uuid == scope.row.user_id"
             class="text-blue-500"
-            >{{ user.username }} / {{ user.mobile }}</span
-          >
+          >{{ user.username }} / {{ user.mobile }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="分红剩余金额">
-        <template slot-scope="scope"
-          >￥{{ (scope.row.balance / 100).toFixed(2) }}</template
-        >
+      <el-table-column label="账户余额">
+        <template slot-scope="scope">￥{{ (scope.row.balance / 100).toFixed(2) }}</template>
       </el-table-column>
       <el-table-column label="平台分红积分剩余">
-        <template slot-scope="scope"
-          >￥{{ (scope.row.profit / 100).toFixed(2) }}</template
-        >
+        <template slot-scope="scope">￥{{ (scope.row.profit / 100).toFixed(2) }}</template>
       </el-table-column>
       <el-table-column label="平台分红开始日期">
         <template slot-scope="scope">{{ scope.row.profit_date }}</template>
       </el-table-column>
-      <el-table-column label="分红等级" prop="profit_level"> </el-table-column>
+      <el-table-column label="分红等级" prop="profit_level"></el-table-column>
     </el-table>
     <el-pagination
       :current-page="listData.page"

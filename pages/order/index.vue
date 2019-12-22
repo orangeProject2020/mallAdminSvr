@@ -65,6 +65,31 @@
                 <span class="text-red-600">￥{{(scope.row.total / 100).toFixed(2)}}</span>
               </template>
             </el-table-column>
+            <el-table-column label="套餐等级">
+              <template slot-scope="scope">
+                <span class>{{scope.row.package_level}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="结单日期">
+              <template slot-scope="scope">
+                <span
+                  class
+                  v-if="scope.row.close_time"
+                >{{dateFormat(scope.row.close_time, 'YYYY-MM-DD')}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="套餐分红结算">
+              <template slot-scope="scope" v-if="scope.row.package_level > 0">
+                <span class v-if="scope.row.profit_status == 1">是</span>
+                <span class="text-red-600" v-if="scope.row.profit_status == 0">否</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="平台分红结算">
+              <template slot-scope="scope">
+                <span class v-if="scope.row.profit_day_status == 1">是</span>
+                <span class="text-red-600" v-if="scope.row.profit_day_status == 0">否</span>
+              </template>
+            </el-table-column>
           </el-table>
         </template>
       </el-table-column>
