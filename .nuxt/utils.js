@@ -133,7 +133,7 @@ export async function setContext (app, context) {
       payload: context.payload,
       error: context.error,
       base: '/',
-      env: {"nodeEnv":"production","apiDomain":"http://mall.admin.jianpiane.com","apiDomainLocal":"http://127.0.0.1:10014","uploadSingleAction":"http://api.jianpiane.com/upload/single","uploadMultiAction":"http://api.jianpiane.com/upload/multi","businessId":0}
+      env: {"nodeEnv":"production","apiDomain":"http://mall.admin.sunonenight.com","apiDomainLocal":"http://127.0.0.1:10014","uploadSingleAction":"http://api.sunonenight.com/upload/single","uploadMultiAction":"http://api.sunonenight.com/upload/multi","businessId":0}
     }
     // Only set once
     if (context.req) {

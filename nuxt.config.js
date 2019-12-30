@@ -89,10 +89,10 @@ module.exports = {
 
   env: {
     nodeEnv: process.env.NODE_ENV || 'development',
-    apiDomain: 'http://mall.admin.jianpiane.com',
+    apiDomain: 'http://mall.admin.sunonenight.com',
     apiDomainLocal: 'http://127.0.0.1:10014',
-    uploadSingleAction: (process.env.NODE_ENV == 'production') ? 'http://api.jianpiane.com/upload/single' : 'http://127.0.0.1:10000/upload/single',
-    uploadMultiAction: (process.env.NODE_ENV == 'production') ? 'http://api.jianpiane.com/upload/multi' : 'http://127.0.0.1:10000/upload/multi',
+    uploadSingleAction: (process.env.NODE_ENV == 'production') ? 'http://api.sunonenight.com/upload/single' : 'http://127.0.0.1:10000/upload/single',
+    uploadMultiAction: (process.env.NODE_ENV == 'production') ? 'http://api.sunonenight.com/upload/multi' : 'http://127.0.0.1:10000/upload/multi',
     businessId: 0
   }
 }
