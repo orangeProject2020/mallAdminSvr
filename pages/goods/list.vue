@@ -224,6 +224,25 @@
             </el-form-item>
           </div>
         </div>
+
+        <div class="flex flex-wrap">
+          <el-form-item label="详情图片">
+            <el-upload
+              class="upload-demo"
+              :action="uploadMultiAction"
+              :on-preview="handlePreviewPics"
+              :on-remove="handleRemovePics"
+              :on-success="handSuccessPics"
+              :file-list="fileListPics"
+              list-type="picture"
+              :multiple="true"
+              name="photos"
+            >
+              <el-button size="small" type="primary">点击上传</el-button>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png/gif文件，且不超过500kb</div>
+            </el-upload>
+          </el-form-item>
+        </div>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogGoodsUpdateVisible = false">取 消</el-button>
@@ -284,6 +303,7 @@ export default {
       },
       fileListThumb: [],
       fileListCover: [],
+      fileListPics: [],
       rulesFormGoodsUpdate: {
         title: [
           { required: true, message: "请输入活商品名称", trigger: "blur" }
@@ -300,7 +320,8 @@ export default {
         { id: 3, title: "C级" },
         { id: 4, title: "D级" }
       ],
-      uploadSingleAction: process.env.uploadSingleAction
+      uploadSingleAction: process.env.uploadSingleAction,
+      uploadMultiAction: process.env.uploadMultiAction
     };
   },
   methods: {
@@ -367,6 +388,16 @@ export default {
       this.fileListThumb = item.thumb ? [{ name: "", url: item.thumb }] : [];
       this.fileListCover = item.cover ? [{ name: "", url: item.cover }] : [];
       console.log("/goodsUpdateBtnClick formGoodsData:", this.formGoodsData);
+
+      let pics = [];
+      if (item.pics) {
+        pics = item.pics.split(",");
+      }
+      this.fileListPics = [];
+      pics.forEach(pic => {
+        this.fileListPics.push({ name: "", url: pic });
+      });
+
       this.dialogGoodsUpdateVisible = true;
     },
     goodsAddBtnClick() {
@@ -392,6 +423,9 @@ export default {
         pics: [],
         status: 0
       };
+      this.fileListCover = [];
+      this.fileListThumb = [];
+      this.fileListPics = [];
       this.dialogGoodsUpdateVisible = true;
     },
     async goodsDeleteBtnClick(item) {
@@ -442,6 +476,13 @@ export default {
       data.package_profit = parseInt(data.package_profit * 100);
       data.thumb = this.fileListThumb.length ? this.fileListThumb[0].url : "";
       data.cover = this.fileListCover.length ? this.fileListCover[0].url : "";
+
+      console.log("/goodsInfoUpdate pics", this.fileListPics);
+      data.pics = [];
+      this.fileListPics.forEach(item => {
+        data.pics.push(item.response ? item.response.data[0].url : item.url);
+      });
+      data.pics = data.pics.length ? data.pics.join(",") : "";
       console.log("/goodsInfoUpdate data:", data);
       this.goodsInfoUpdateBtn.disabled = true;
       try {
@@ -502,6 +543,48 @@ export default {
           url: res.data.url
         }
       ];
+    },
+    handlePreviewPics(file, fileList) {
+      console.log("/handlePreviewPics file:", file);
+      console.log("/handlePreviewPics fileList:", fileList);
+    },
+    handleRemovePics(file) {
+      console.log("/handleRemovePics file:", file);
+
+      for (let index = 0; index < this.fileListPics.length; index++) {
+        let item = this.fileListPics[index];
+        if (item.name == file.name && item.url == file.url) {
+          this.fileListPics.splice(index, 1);
+        }
+      }
+      console.log("/handleRemovePics list:", this.fileListPics);
+    },
+    handSuccessPics(res, file, list) {
+      console.log("/handSuccessPics res:", res);
+      console.log("/handSuccessPics file:", file);
+      console.log("/handSuccessPics list:", list);
+
+      this.fileListPics = list;
+
+      // this.fileListPics = [];
+      // list.forEach(item => {
+      //   this.fileListPics.push({
+      //     name: item.name,
+      //     url: item.response.data[0].url
+      //   });
+      // });
+      // this.fileListPics.push({
+      //   status: "success",
+      //   name: file.name,
+      //   url: res.data[0].url
+      // });
+
+      // this.fileListCover = [
+      //   {
+      //     name: file.name,
+      //     url: res.data.url
+      //   }
+      // ];
     }
   },
   created() {
