@@ -296,7 +296,9 @@ export default {
       packageLevels: [
         { id: 0, title: "不是套餐" },
         { id: 1, title: "A级" },
-        { id: 2, title: "B级" }
+        { id: 2, title: "B级" },
+        { id: 3, title: "C级" },
+        { id: 4, title: "D级" }
       ],
       uploadSingleAction: process.env.uploadSingleAction
     };
