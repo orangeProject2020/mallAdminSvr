@@ -180,7 +180,7 @@ export default {
     async withdrawAuditCancelBtnCkick(item) {
       let data = {
         id: item.id,
-        status: -1,
+        status: 0,
         remark: ""
       };
       try {

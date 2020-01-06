@@ -2,11 +2,7 @@
   <div>
     <el-row class="mt-4">
       <el-col :span="6">
-        <el-input
-          placeholder="请输入用户手机号码"
-          v-model="listData.search"
-          @change="getSearchList"
-        >
+        <el-input placeholder="请输入用户手机号码" v-model="listData.search" @change="getSearchList">
           <i slot="prefix" class="el-input__icon el-icon-search"></i>
         </el-input>
       </el-col>
@@ -19,30 +15,31 @@
             v-for="user in userList"
             v-if="user.uuid == scope.row.user_id"
             class="text-blue-500"
-            >{{ user.username }} / {{ user.mobile }}</span
-          >
+          >{{ user.username }} / {{ user.mobile }}</span>
         </template>
       </el-table-column>
       <el-table-column label="创建时间">
-        <template slot-scope="scope">{{
+        <template slot-scope="scope">
+          {{
           dateFormat(scope.row.create_time)
-        }}</template>
+          }}
+        </template>
       </el-table-column>
       <el-table-column label="金额">
-        <template slot-scope="scope"
-          >￥{{ (scope.row.balance / 100).toFixed(2) }}</template
-        >
+        <template slot-scope="scope">￥{{ (scope.row.balance / 100).toFixed(2) }}</template>
       </el-table-column>
       <el-table-column label="分红积分">
-        <template slot-scope="scope"
-          >￥{{ (scope.row.profit / 100).toFixed(2) }}</template
-        >
+        <template slot-scope="scope">￥{{ (scope.row.profit / 100).toFixed(2) }}</template>
+      </el-table-column>
+      <el-table-column label="提现限额">
+        <template slot-scope="scope">￥{{ (scope.row.withdraw / 100).toFixed(2) }}</template>
       </el-table-column>
       <el-table-column label="类型">
         <template slot-scope="scope">
           <span v-if="scope.row.type == 1">分红额度增加</span>
           <span v-if="scope.row.type == 2">提现</span>
           <span v-if="scope.row.type == 3">分红积分增加</span>
+          <span v-if="scope.row.type == 4">提现限额增加</span>
         </template>
       </el-table-column>
     </el-table>

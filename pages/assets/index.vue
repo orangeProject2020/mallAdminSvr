@@ -22,6 +22,9 @@
       <el-table-column label="账户余额">
         <template slot-scope="scope">￥{{ (scope.row.balance / 100).toFixed(2) }}</template>
       </el-table-column>
+      <el-table-column label="提现限额">
+        <template slot-scope="scope">￥{{ (scope.row.withdraw / 100).toFixed(2) }}</template>
+      </el-table-column>
       <el-table-column label="平台分红积分剩余">
         <template slot-scope="scope">￥{{ (scope.row.profit / 100).toFixed(2) }}</template>
       </el-table-column>
