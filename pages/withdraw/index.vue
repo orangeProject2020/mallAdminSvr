@@ -19,6 +19,7 @@
           >{{ user.username }} / {{ user.mobile }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="真实姓名" prop="name"></el-table-column>
       <el-table-column label="金额">
         <template slot-scope="scope">￥{{ (scope.row.amount / 100).toFixed(2) }}</template>
       </el-table-column>
@@ -39,8 +40,8 @@
 
       <el-table-column label="状态">
         <template slot-scope="scope">
-          <span v-if="scope.row.status == -1" class="text-gray-500">审核不通过</span>
-          <span v-if="scope.row.status == 0">提现卡领取</span>
+          <!-- <span v-if="scope.row.status == -1" class="text-gray-500">审核不通过</span> -->
+          <span v-if="scope.row.status == 0">审核不通过</span>
           <span v-if="scope.row.status == 1" class="text-red-500">未审核</span>
           <span v-if="scope.row.status == 2" class="text-green-500">已完成</span>
         </template>
